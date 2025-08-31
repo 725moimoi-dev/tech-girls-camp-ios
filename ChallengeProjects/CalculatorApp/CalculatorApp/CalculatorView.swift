@@ -14,78 +14,156 @@ struct CalculatorView: View {
     @State var secondNumber: String = ""
     @State var result: String = "?"
     
-    var body: some View {
-        VStack(spacing: 20) {
-            Text("足し算電卓")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
-            HStack(spacing: 10) {
-                // 1つ目の入力フィールド
-                // @Stateのついたプロパティには$をつけるというおまじない。
-                TextField("?", text: $firstNumber)
-                    .keyboardType(.numberPad)
-                    .frame(width: 60)
-                    .multilineTextAlignment(.center)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                Text("+")
-                    .font(.title)
-                
-                // 2つ目の入力フィールド
-                TextField("?", text: $secondNumber)
-                    .keyboardType(.numberPad)
-                    .frame(width: 60)
-                    .multilineTextAlignment(.center)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                Text("=")
-                    .font(.title)
-                
-                // 結果の表示
-                Text(result)
-                    .font(.title)
+    @State var firstNumber2: String = ""
+    @State var secondNumber2: String = ""
+    @State var result2: String = "?"
+    
+    var body: some View{
+        VStack{
+            VStack(spacing: 20) {
+                Text("足し算電卓")
+                    .font(.largeTitle)
                     .fontWeight(.bold)
-                    .frame(width: 100)
-                    .multilineTextAlignment(.center)
+                
+                HStack(spacing: 10) {
+                    // 1つ目の入力フィールド
+                    // @Stateのついたプロパティには$をつけるというおまじない。
+                    TextField("?", text: $firstNumber)
+                        .keyboardType(.numberPad)
+                        .frame(width: 60)
+                        .multilineTextAlignment(.center)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    
+                    Text("+")
+                        .font(.title)
+                    
+                    // 2つ目の入力フィールド
+                    TextField("?", text: $secondNumber)
+                        .keyboardType(.numberPad)
+                        .frame(width: 60)
+                        .multilineTextAlignment(.center)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    
+                    Text("=")
+                        .font(.title)
+                    
+                    // 結果の表示
+                    Text(result)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .frame(width: 100)
+                        .multilineTextAlignment(.center)
+                }
+                
+                // 計算ボタン
+                Button(action: {
+                    // ここでボタンを押した時の挙動を記述
+                    // 今回は calculateSum() というメソッド(関数)を呼び出しています
+                    // 具体的な処理は calculateSum() 内に記述します
+                    calculateSum()
+                }) {
+                    Text("計算する")
+                        .fontWeight(.bold)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal)
+                
+                Spacer()
             }
+            .padding()
             
-            // 計算ボタン
-            Button(action: {
-                // ここでボタンを押した時の挙動を記述
-                // 今回は calculateSum() というメソッド(関数)を呼び出しています
-                // 具体的な処理は calculateSum() 内に記述します
-                calculateSum()
-            }) {
-                Text("計算する")
+            Divider()
+            
+            // TODO: - Challenge2
+            // 引き算電卓も作ってみよう
+            VStack(spacing: 20) {
+                Text("引き算電卓")
+                    .font(.largeTitle)
                     .fontWeight(.bold)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                
+                HStack(spacing: 10) {
+                    // 1つ目の入力フィールド
+                    // @Stateのついたプロパティには$をつけるというおまじない。
+                    TextField("?", text: $firstNumber2)
+                        .keyboardType(.numberPad)
+                        .frame(width: 60)
+                        .multilineTextAlignment(.center)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    
+                    Text("-")
+                        .font(.title)
+                    
+                    // 2つ目の入力フィールド
+                    TextField("?", text: $secondNumber2)
+                        .keyboardType(.numberPad)
+                        .frame(width: 60)
+                        .multilineTextAlignment(.center)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    
+                    Text("=")
+                        .font(.title)
+                    
+                    // 結果の表示
+                    Text(result2)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .frame(width: 100)
+                        .multilineTextAlignment(.center)
+                }
+                
+                // 計算ボタン
+                Button(action: {
+                    // ここでボタンを押した時の挙動を記述
+                    // 今回は calculateSum() というメソッド(関数)を呼び出しています
+                    // 具体的な処理は calculateSum() 内に記述します
+                    calculateMinus()
+                }) {
+                    Text("計算する")
+                        .fontWeight(.bold)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal)
+                
+                Spacer()
             }
-            .padding(.horizontal)
-
-            Spacer()
-        }
-        .padding()
-        
-        Divider()
-        
-        // TODO: - Challenge2
-        // 引き算電卓も作ってみよう
-        
-    }
+            .padding()
+            
+            Divider()
+            
+            
+        } }
     
     // 足し算の処理
     func calculateSum() {
         // TODO: - Challenge1
         // ここに計算ロジックを記述し、計算結果を表示できるようにしてみよう
-
+        if let firstNumberInt = Int(firstNumber), let secondNumberInt = Int(secondNumber){
+            let resultInt = firstNumberInt + secondNumberInt
+            result = String(resultInt)
+        } else{
+            result = "Error"
+        }
     }
+    
+    func calculateMinus(){
+        if let firstNumber2Int = Int(firstNumber2),
+            let secondNumber2Int = Int(secondNumber2){
+            let result2Int = firstNumber2Int - secondNumber2Int
+            result2 = String(result2Int)
+        } else{
+            result2 = "Error"
+        }
+    }
+   
 }
-
 #Preview {
     CalculatorView()
 }
